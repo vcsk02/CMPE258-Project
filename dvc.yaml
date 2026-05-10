@@ -1,0 +1,18 @@
+stages:
+  train:
+    cmd: python -m deep_har.train --model cnn_lstm --epochs 40 --batch-size 64
+    deps:
+      - src/deep_har
+      - configs/train_config.yaml
+    outs:
+      - outputs/checkpoints
+      - outputs/preprocessing
+    metrics:
+      - outputs/results/cnn_lstm_test_metrics.json
+  evaluate:
+    cmd: python -m deep_har.evaluate --model-path outputs/checkpoints/cnn_lstm_best.keras --normalizer-path outputs/preprocessing/normalizer.npz
+    deps:
+      - outputs/checkpoints/cnn_lstm_best.keras
+      - outputs/preprocessing/normalizer.npz
+    metrics:
+      - outputs/results/evaluation_metrics.json

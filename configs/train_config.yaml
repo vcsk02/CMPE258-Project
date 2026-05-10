@@ -1,0 +1,18 @@
+seed: 42
+dataset:
+  name: UCI HAR Dataset
+  source: https://archive.ics.uci.edu/ml/machine-learning-databases/00240/UCI%20HAR%20Dataset.zip
+  data_dir: data
+  sensor_subset: all
+training:
+  model: cnn_lstm
+  epochs: 40
+  batch_size: 64
+  learning_rate: 0.001
+  validation_size: 0.15
+  patience: 10
+  augmentation: false
+outputs:
+  output_dir: outputs
+  use_mlflow: true
+  experiment_name: deep-har-mlops

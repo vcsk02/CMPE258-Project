@@ -1,0 +1,20 @@
+[
+  {
+    "Model": "MLP",
+    "Accuracy": 0.9138,
+    "F1 Macro": 0.9135,
+    "Train Time (s)": 82
+  },
+  {
+    "Model": "CNN",
+    "Accuracy": 0.9179,
+    "F1 Macro": 0.9189,
+    "Train Time (s)": 529
+  },
+  {
+    "Model": "CNN_LSTM",
+    "Accuracy": 0.9325,
+    "F1 Macro": 0.9335,
+    "Train Time (s)": 829
+  }
+]

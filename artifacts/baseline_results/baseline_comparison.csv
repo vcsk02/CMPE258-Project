@@ -1,0 +1,4 @@
+Model,Accuracy,F1 Macro,Train Time (s)
+MLP,0.9138,0.9135,82
+CNN,0.9179,0.9189,529
+CNN_LSTM,0.9325,0.9335,829
