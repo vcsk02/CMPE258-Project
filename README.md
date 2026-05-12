@@ -1,7 +1,7 @@
 # DeepHAR-MLOps: Smartphone Human Activity Recognition
 
 **Course:** CMPE 258 Deep Learning  
-**Team:** Vineeth, Siddharth, Arshan, Soham  
+**Team:** Vineeth Chandra Sai Kandukuri, Siddharth Rao Kartik, Arshan Bhanage, Soham Jain  
 **Task:** Classify human activities from smartphone accelerometer and gyroscope time-series windows.
 
 This repository contains an end-to-end deep learning and MLOps-style pipeline for Human Activity Recognition (HAR) from smartphone inertial measurement unit (IMU) data. The model receives a 2.56 second window of raw sensor signals and predicts one of six activities:
