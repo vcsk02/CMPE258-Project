@@ -5,7 +5,7 @@ dataset:
   data_dir: data
   sensor_subset: all
 training:
-  model: cnn_lstm
+  model: sensor_transformer
   epochs: 40
   batch_size: 64
   learning_rate: 0.001
@@ -16,3 +16,10 @@ outputs:
   output_dir: outputs
   use_mlflow: true
   experiment_name: deep-har-mlops
+prompting:
+  explanation_mode: deterministic_fallback
+  llm_ready_prompt_artifact: true
+monitoring:
+  save_reference_profile: true
+  drift_score_threshold_review: 1.5
+  drift_score_threshold_retrain: 3.0

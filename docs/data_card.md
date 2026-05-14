@@ -6,7 +6,7 @@ UCI Human Activity Recognition Using Smartphones.
 
 ## Collection setup
 
-The dataset contains smartphone inertial signals collected from volunteers wearing a Samsung Galaxy S II on the waist. The raw signals were sampled at 50 Hz and segmented into 2.56 second windows of 128 timesteps with 50 percent overlap.
+The dataset contains smartphone inertial signals collected from volunteers wearing a Samsung Galaxy S II on the waist. Raw signals were sampled at 50 Hz and segmented into 2.56-second windows of 128 timesteps with 50 percent overlap.
 
 ## Inputs
 
@@ -35,14 +35,26 @@ Six activity classes:
 
 ## Split
 
-The original dataset uses a subject-based train/test split. This matters because the test set contains people not seen during training, making the evaluation closer to real deployment.
+The original dataset uses a subject-based train/test split. This matters because the test set contains people not seen during training, making evaluation closer to real deployment.
 
 ## Preprocessing
 
 The training script fits a per-channel z-score normalizer on the training split only. The same mean and standard deviation are applied to validation, test, and inference windows.
+
+## Monitoring profile
+
+The training script saves a compact training-split profile containing per-channel mean, standard deviation, and percentile ranges. The Gradio app uses this profile to flag possible input drift.
+
+## Data leakage controls
+
+- Normalizer is fitted on training data only.
+- Validation is split from the training subject split after loading.
+- Test subjects remain held out.
+- Generated metrics are based on the held-out UCI HAR test split.
 
 ## Limitations
 
 - The dataset uses one phone model and waist placement.
 - Real-world users may carry phones in pockets, bags, hands, or different body positions.
 - Some static classes, especially SITTING and STANDING, are difficult to separate because the signals are similar.
+- The dataset is not sufficient for a safety-critical fall-detection product without additional validation.

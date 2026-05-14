@@ -1,4 +1,4 @@
-.PHONY: setup test train train-quick evaluate app ablations clean
+.PHONY: setup test train train-quick evaluate app ablations sweeps manifest clean
 
 setup:
 	python -m pip install --upgrade pip
@@ -21,7 +21,13 @@ app:
 	python app.py
 
 ablations:
-	python -m deep_har.ablations --epochs 15 --models mlp cnn cnn_lstm tcn attention
+	python -m deep_har.ablations --epochs 15 --models mlp cnn cnn_lstm tcn attention sensor_transformer
+
+sweeps:
+	python -m deep_har.sweeps --epochs 10 --models cnn cnn_lstm sensor_transformer
+
+manifest:
+	python scripts/generate_artifact_manifest.py
 
 clean:
 	rm -rf outputs/checkpoints outputs/results outputs/plots outputs/tensorboard mlruns

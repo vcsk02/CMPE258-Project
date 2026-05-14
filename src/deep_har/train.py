@@ -14,6 +14,7 @@ from .augment import augment_training_data
 from .constants import ACTIVITY_LABELS, NUM_CLASSES, SENSOR_GROUPS
 from .data import load_dataset, select_sensor_subset
 from .models import MODEL_REGISTRY, build_model, compile_model
+from .monitoring import save_reference_profile
 from .preprocess import ChannelStandardizer
 from .visualization import plot_confusion, plot_training_curves
 
@@ -98,6 +99,7 @@ def main() -> None:
     X_test = normalizer.transform(X_test_raw)
     normalizer_path = prep_dir / "normalizer.npz"
     normalizer.save(normalizer_path)
+    reference_profile_path = save_reference_profile(X_tr_raw, prep_dir)
 
     if args.augment:
         X_tr, y_tr = augment_training_data(X_tr, y_tr, seed=args.seed)
@@ -106,6 +108,9 @@ def main() -> None:
     model = build_model(args.model, input_shape=input_shape, num_classes=NUM_CLASSES)
     model = compile_model(model, learning_rate=args.learning_rate)
     model.summary()
+    summary_path = result_dir / f"{args.model}_model_summary.txt"
+    with summary_path.open("w", encoding="utf-8") as f:
+        model.summary(print_fn=lambda line: f.write(line + "\n"))
 
     import tensorflow as tf
 
@@ -144,7 +149,9 @@ def main() -> None:
     )
     train_time = time.time() - start
 
+    infer_start = time.time()
     y_proba = model.predict(X_test, verbose=0)
+    inference_time = time.time() - infer_start
     y_pred = y_proba.argmax(axis=1)
     acc = float(accuracy_score(y_test, y_pred))
     f1_macro = float(f1_score(y_test, y_pred, average="macro"))
@@ -158,7 +165,15 @@ def main() -> None:
         "accuracy": acc,
         "f1_macro": f1_macro,
         "train_time_seconds": train_time,
+        "test_inference_time_seconds": inference_time,
+        "test_latency_ms_per_window": 1000.0 * inference_time / max(1, len(X_test)),
+        "parameter_count": int(model.count_params()),
+        "training_examples": int(len(X_tr)),
+        "validation_examples": int(len(X_val)),
+        "test_examples": int(len(X_test)),
+        "augmentation_enabled": bool(args.augment),
         "normalizer_path": str(normalizer_path),
+        "reference_profile_path": str(reference_profile_path),
         "checkpoint_path": str(checkpoint_path),
     }
 
@@ -174,8 +189,17 @@ def main() -> None:
     plot_confusion(y_test, y_pred, plot_dir / f"{args.model}_confusion_matrix.png")
 
     if mlflow is not None:
-        mlflow.log_metrics({"test_accuracy": acc, "test_f1_macro": f1_macro, "train_time_seconds": train_time})
+        mlflow.log_metrics(
+            {
+                "test_accuracy": acc,
+                "test_f1_macro": f1_macro,
+                "train_time_seconds": train_time,
+                "test_latency_ms_per_window": metrics["test_latency_ms_per_window"],
+                "parameter_count": metrics["parameter_count"],
+            }
+        )
         mlflow.log_artifact(str(metrics_path))
+        mlflow.log_artifact(str(summary_path))
         mlflow.end_run()
 
     print(json.dumps(metrics, indent=2))
