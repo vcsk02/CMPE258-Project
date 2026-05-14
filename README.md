@@ -1,6 +1,6 @@
 # DeepHAR-MLOps: Foundation-Model-Inspired Human Activity Recognition
 
-**Course:** CMPE 257 / Deep Learning MLOps Project  
+**Course:** CMPE 258 / Deep Learning MLOps Project  
 **Public GitHub:** https://github.com/vcsk02/CMPE258-Project  
 **Team:** Vineeth Chandra Sai Kandukuri, Siddharth Rao Kartik, Arshan Bhanage, Soham Jain  
 **Primary task:** classify smartphone accelerometer/gyroscope windows into human activities.  
