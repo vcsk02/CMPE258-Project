@@ -1,6 +1,6 @@
 # DeepHAR-MLOps: Foundation-Model-Inspired Human Activity Recognition
 
-**Course:** CMPE 257 / Deep Learning MLOps Project  
+**Course:** CMPE 258 / Deep Learning MLOps Project  
 **Team:** Vineeth Chandra Sai Kandukuri, Siddharth Rao Kartik, Arshan Bhanage, Soham Jain  
 **Primary task:** classify smartphone accelerometer/gyroscope windows into human activities.  
 **LLM/foundation-model component:** a compact sensor-transformer architecture plus a prompt-engineered explanation layer that converts model outputs, probabilities, and drift statistics into a controlled LLM-ready explanation artifact.
