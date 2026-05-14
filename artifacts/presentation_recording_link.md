@@ -1,15 +1,13 @@
-# Long Presentation Recording Link
+# Long Team Presentation Recording
 
-Add the final full-team presentation recording URL here before submission.
+Status: team recording required before course submission.
 
-Suggested structure:
+Recommended structure:
+- Vineeth: problem, data, model architecture, training results.
+- Siddharth: MLOps pipeline, Docker, CI, reproducibility, deployment path.
+- Arshan: Gradio inference UX, prompt-engineered explanation, demo walkthrough.
+- Soham: experiments, ablations, sweeps, visualizations, report/slides.
 
-1. Title, team, and problem motivation
-2. Dataset and preprocessing
-3. Model architectures and why they were selected
-4. Training pipeline and MLOps artifacts
-5. Experiments: architecture comparison, ablations, sweeps
-6. Gradio inference demo
-7. Prompt-engineered explanation / foundation-model connection
-8. Monitoring, drift, and future retraining path
-9. Individual team contributions
+Paste the final full-team recording URL here after recording:
+
+`PRESENTATION_RECORDING_LINK_TO_BE_ADDED_BY_TEAM`

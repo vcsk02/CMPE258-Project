@@ -1,0 +1,7 @@
+ablation_type,variant,accuracy,f1_macro,finding,status
+architecture,MLP flattened window,0.9138,0.9135,Flattening works well but loses temporal structure,completed in notebook
+architecture,1D CNN local temporal filters,0.9179,0.9189,Convolutions improve dynamic activity separation,completed in notebook
+architecture,CNN-LSTM sequence-aware model,0.9325,0.9335,Sequence modeling is best among executed baselines,completed in notebook
+architecture,TCN,,,Implemented in src/deep_har/models.py for final run,"implemented, run locally with TensorFlow"
+architecture,CNN-BiLSTM-Attention,,,Implemented in src/deep_har/models.py for final run,"implemented, run locally with TensorFlow"
+architecture,Sensor Transformer,,,Foundation-model-inspired encoder implemented for final run,"implemented, run locally with TensorFlow"

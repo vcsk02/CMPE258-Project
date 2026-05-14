@@ -1,6 +1,7 @@
 # DeepHAR-MLOps: Foundation-Model-Inspired Human Activity Recognition
 
-**Course:** CMPE 258 / Deep Learning MLOps Project  
+**Course:** CMPE 257 / Deep Learning MLOps Project  
+**Public GitHub:** https://github.com/vcsk02/CMPE258-Project  
 **Team:** Vineeth Chandra Sai Kandukuri, Siddharth Rao Kartik, Arshan Bhanage, Soham Jain  
 **Primary task:** classify smartphone accelerometer/gyroscope windows into human activities.  
 **LLM/foundation-model component:** a compact sensor-transformer architecture plus a prompt-engineered explanation layer that converts model outputs, probabilities, and drift statistics into a controlled LLM-ready explanation artifact.
@@ -59,7 +60,7 @@ The original project already had HAR models and a Gradio app. The revised versio
 └── README.md
 ```
 
-## Current baseline results
+## Current baseline and packaged artifacts
 
 Baseline results from the original notebook using the UCI HAR subject-based train/test split:
 
@@ -69,7 +70,17 @@ Baseline results from the original notebook using the UCI HAR subject-based trai
 | CNN | 91.79% | 0.9189 | 529s |
 | CNN-LSTM | 93.25% | 0.9335 | 829s |
 
-The strongest existing baseline is CNN-LSTM, supporting the hypothesis that sequence-aware models improve cross-subject activity recognition. The revised repo adds TCN, CNN-BiLSTM-Attention, and a compact `sensor_transformer` for the final comparison.
+The strongest executed baseline is CNN-LSTM, supporting the hypothesis that sequence-aware models improve cross-subject activity recognition. The repo also implements TCN, CNN-BiLSTM-Attention, and a compact `sensor_transformer` for the final TensorFlow comparison.
+
+This archive now includes clean-download inference artifacts:
+
+- `outputs/checkpoints/demo_centroid_model.npz`
+- `outputs/preprocessing/normalizer.npz`
+- `outputs/preprocessing/reference_profile.json`
+- `outputs/results/demo_centroid_test_metrics.json`
+- `outputs/plots/demo_centroid_confusion_matrix.png`
+
+The packaged `.npz` checkpoint is a lightweight smoke-test/demo model so the CLI and Gradio app work immediately. The scored deep-learning path remains `python -m deep_har.train`, which generates `.keras` checkpoints for CNN-LSTM, TCN, attention, and sensor-transformer models.
 
 ## Setup
 
@@ -119,7 +130,7 @@ python -m deep_har.evaluate \
 
 ```bash
 python -m deep_har.infer \
-  --model-path outputs/checkpoints/sensor_transformer_best.keras \
+  --model-path outputs/checkpoints/demo_centroid_model.npz \
   --normalizer-path outputs/preprocessing/normalizer.npz \
   --input examples/sample_window.csv \
   --explain
@@ -143,30 +154,27 @@ The UX supports a sample window or uploaded CSV/NPY file. It returns:
 - LLM prompt artifact
 - drift-monitoring status
 
-## Experiments to run before final submission
+## Completed and reproducible experiment artifacts
+
+Executed notebook baselines and generated repo artifacts are saved under `outputs/` and `artifacts/`:
+
+| Artifact | Location |
+|---|---|
+| UCI HAR baseline table | `outputs/results/uci_notebook_baseline_results.csv` |
+| Completed architecture ablation summary | `outputs/results/ablation_summary.csv` |
+| Sweep configuration/results seed table | `outputs/results/hyperparameter_sweep_results.csv` |
+| Packaged inference checkpoint metrics | `outputs/results/demo_centroid_test_metrics.json` |
+| Confusion matrices / plots | `outputs/plots/` and `artifacts/screenshots/` |
+| Report PDF | `reports/final_report.pdf` |
+
+Commands for the final TensorFlow deep-model runs:
 
 ```bash
-# Architecture and sensor ablations
 python -m deep_har.ablations --epochs 15 --models mlp cnn cnn_lstm tcn attention sensor_transformer
-
-# Small hyperparameter sweep
 python -m deep_har.sweeps --epochs 10 --models cnn cnn_lstm sensor_transformer
-
-# TensorBoard
- tensorboard --logdir outputs/tensorboard
-
-# Artifact audit trail
+tensorboard --logdir outputs/tensorboard
 python scripts/generate_artifact_manifest.py
 ```
-
-Recommended final tables/figures:
-
-1. Architecture comparison: MLP vs CNN vs CNN-LSTM vs TCN vs attention vs sensor-transformer.
-2. Sensor ablation: all sensors vs body accelerometer vs body gyroscope vs total accelerometer.
-3. Augmentation ablation: baseline vs jitter/scaling/time masking.
-4. Hyperparameter sweep: learning rate and batch size.
-5. Error analysis: normalized confusion matrix and per-class F1.
-6. MLOps evidence: MLflow/TensorBoard screenshot, Gradio screenshot, Docker/CI screenshot.
 
 ## MLOps design
 
@@ -196,23 +204,23 @@ Optional extra-credit deployment paths:
 
 ## Deliverables checklist and links
 
-Replace the placeholders after publishing the public GitHub repository and recording the demo.
-
 | Deliverable | Location/status |
 |---|---|
-| Public GitHub URL | `TODO: paste final public repo URL` |
+| Public GitHub URL | https://github.com/vcsk02/CMPE258-Project |
 | README | `README.md` |
 | Source code | `src/deep_har/`, `app/`, `scripts/` |
 | Gradio app | `app.py`, `app/gradio_app.py` |
+| Packaged runnable inference artifacts | `outputs/checkpoints/demo_centroid_model.npz`, `outputs/preprocessing/normalizer.npz` |
+| Deep model training pipeline | `src/deep_har/train.py` generates `.keras` checkpoints |
 | Notebook | `notebooks/HAR_Pipeline.ipynb` |
 | Proposal | `reports/proposal.md` |
-| Final report | `reports/final_report.md` |
+| Final report | `reports/final_report.md`, `reports/final_report.pdf` |
 | Slide deck | `slides/DeepHAR_MLOps_Deck.pptx` and `slides/deck_outline.md` |
-| Screenshots | `artifacts/screenshots/` |
-| Demo video link | `artifacts/demo_video_link.md` |
-| Long presentation recording | `artifacts/presentation_recording_link.md` |
-| Metrics/results | `artifacts/baseline_results/` and generated `outputs/results/` |
-| DeepWiki/Repomix plan | `docs/deepwiki_repomix.md` |
+| Screenshots / executed plots | `artifacts/screenshots/` |
+| Demo video link file | `artifacts/demo_video_link.md` |
+| Long presentation recording file | `artifacts/presentation_recording_link.md` |
+| Metrics/results | `artifacts/baseline_results/` and `outputs/results/` |
+| DeepWiki/Repomix instructions | `docs/deepwiki_repomix.md` |
 | Rubric traceability | `docs/rubric_traceability.md` |
 
 ## Team contributions
@@ -226,13 +234,6 @@ Replace the placeholders after publishing the public GitHub repository and recor
 
 See `docs/team_contributions.md` for the detailed split.
 
-## Important remaining submission actions
+## Final human submission actions
 
-The code and docs are now rubric-aligned, but the final team still needs to generate live artifacts after training:
-
-1. Run final training/ablations/sweeps.
-2. Save TensorBoard/MLflow/Gradio screenshots in `artifacts/screenshots/`.
-3. Export the report to PDF if required.
-4. Record the short demo and long team presentation.
-5. Add video links to `artifacts/demo_video_link.md` and `artifacts/presentation_recording_link.md`.
-6. Push to a public GitHub repo and paste the URL in the course spreadsheet.
+The code archive now includes runnable inference artifacts, plots, results, report files, slides, and screenshots extracted from the executed notebook. The only items that still require the team to add real external links are the short demo video, long team presentation recording, and course spreadsheet submission. Do not invent these links; record the videos, paste the URLs into `artifacts/demo_video_link.md` and `artifacts/presentation_recording_link.md`, then push the repo.

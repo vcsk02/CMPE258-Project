@@ -1,17 +1,14 @@
 # Demo Video Link
 
-Add the final short demo video URL here before submission.
+Status: team recording required before course submission.
 
-## Suggested 5-7 minute demo structure
+Recommended content for the short demo video:
+1. Open the public GitHub repository: https://github.com/vcsk02/CMPE258-Project
+2. Show README, report, slide deck, `outputs/results/`, and `artifacts/screenshots/`.
+3. Run `python app.py` and perform inference on `examples/sample_window.csv`.
+4. Show the prediction, probabilities, prompt-engineered explanation, and drift status.
+5. Briefly show training/evaluation commands and plots.
 
-1. Show public GitHub repository and README deliverables table.
-2. Explain problem, dataset, and six output classes.
-3. Show training command and generated artifacts.
-4. Show TensorBoard/MLflow metrics and ablation results.
-5. Launch Gradio and run `examples/sample_window.csv` inference.
-6. Show probability table, sensor plot, prompt-engineered explanation, and drift status.
-7. Summarize team contributions.
+Paste the final unlisted YouTube/Drive/Zoom recording URL here after recording:
 
-## Final URL
-
-TODO: paste video URL here.
+`VIDEO_LINK_TO_BE_ADDED_BY_TEAM`

@@ -51,3 +51,13 @@ Suggested minimum gates for the final demo:
 - average inference latency captured in metrics JSON
 - Gradio sample inference works from a clean checkout
 - tests pass in GitHub Actions
+
+
+## Clean-clone inference smoke test
+
+```bash
+python -m deep_har.infer --model-path outputs/checkpoints/demo_centroid_model.npz --normalizer-path outputs/preprocessing/normalizer.npz --input examples/sample_window.csv --explain
+python app.py
+```
+
+For the final deep model, replace the `.npz` path with `outputs/checkpoints/sensor_transformer_best.keras` after training.

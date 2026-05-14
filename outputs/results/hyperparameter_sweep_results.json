@@ -1,0 +1,47 @@
+[
+  {
+    "model": "CNN_LSTM",
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "epochs": 80,
+    "accuracy": 0.9325,
+    "f1_macro": 0.9335,
+    "status": "completed notebook reference"
+  },
+  {
+    "model": "CNN",
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "epochs": 80,
+    "accuracy": 0.9179,
+    "f1_macro": 0.9189,
+    "status": "completed notebook reference"
+  },
+  {
+    "model": "MLP",
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "epochs": 80,
+    "accuracy": 0.9138,
+    "f1_macro": 0.9135,
+    "status": "completed notebook reference"
+  },
+  {
+    "model": "sensor_transformer",
+    "learning_rate": 0.001,
+    "batch_size": 64,
+    "epochs": 40,
+    "accuracy": "",
+    "f1_macro": "",
+    "status": "configured in src/deep_har/sweeps.py; run locally"
+  },
+  {
+    "model": "sensor_transformer",
+    "learning_rate": 0.0005,
+    "batch_size": 64,
+    "epochs": 40,
+    "accuracy": "",
+    "f1_macro": "",
+    "status": "configured in src/deep_har/sweeps.py; run locally"
+  }
+]

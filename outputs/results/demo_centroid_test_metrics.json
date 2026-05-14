@@ -1,0 +1,14 @@
+{
+  "model": "demo_centroid_model",
+  "artifact_type": "packaged lightweight inference checkpoint",
+  "dataset": "synthetic smoke-test windows; UCI HAR final baselines are reported separately",
+  "accuracy": 1.0,
+  "f1_macro": 1.0,
+  "training_examples": 1080,
+  "test_examples": 360,
+  "parameter_count": 360,
+  "checkpoint_path": "outputs/checkpoints/demo_centroid_model.npz",
+  "normalizer_path": "outputs/preprocessing/normalizer.npz",
+  "reference_profile_path": "outputs/preprocessing/reference_profile.json",
+  "intended_use": "make CLI/Gradio inference runnable immediately; replace with .keras deep checkpoint after final TensorFlow training"
+}

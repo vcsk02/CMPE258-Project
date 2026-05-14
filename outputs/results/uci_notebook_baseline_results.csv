@@ -1,0 +1,4 @@
+model,accuracy,f1_macro,train_time_seconds,parameter_count,source
+MLP,0.9138,0.9135,82,338246,executed HAR_Pipeline.ipynb
+CNN,0.9179,0.9189,529,66502,executed HAR_Pipeline.ipynb
+CNN_LSTM,0.9325,0.9335,829,176774,executed HAR_Pipeline.ipynb

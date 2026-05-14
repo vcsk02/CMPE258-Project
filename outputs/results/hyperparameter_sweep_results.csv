@@ -1,0 +1,6 @@
+model,learning_rate,batch_size,epochs,accuracy,f1_macro,status
+CNN_LSTM,0.001,64,80,0.9325,0.9335,completed notebook reference
+CNN,0.001,64,80,0.9179,0.9189,completed notebook reference
+MLP,0.001,64,80,0.9138,0.9135,completed notebook reference
+sensor_transformer,0.001,64,40,,,configured in src/deep_har/sweeps.py; run locally
+sensor_transformer,0.0005,64,40,,,configured in src/deep_har/sweeps.py; run locally

@@ -4,7 +4,7 @@ import hashlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-INCLUDE_DIRS = ["artifacts", "configs", "docs", "reports", "slides", "src", "tests"]
+INCLUDE_DIRS = ["artifacts", "configs", "docs", "outputs", "reports", "slides", "src", "tests"]
 OUTPUT = ROOT / "artifacts" / "artifact_manifest.md"
 
 

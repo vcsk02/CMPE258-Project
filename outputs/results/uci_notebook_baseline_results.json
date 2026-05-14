@@ -1,0 +1,29 @@
+{
+  "dataset": "UCI HAR subject train/test split",
+  "results": [
+    {
+      "model": "MLP",
+      "accuracy": 0.9138,
+      "f1_macro": 0.9135,
+      "train_time_seconds": 82,
+      "parameter_count": 338246,
+      "source": "executed HAR_Pipeline.ipynb"
+    },
+    {
+      "model": "CNN",
+      "accuracy": 0.9179,
+      "f1_macro": 0.9189,
+      "train_time_seconds": 529,
+      "parameter_count": 66502,
+      "source": "executed HAR_Pipeline.ipynb"
+    },
+    {
+      "model": "CNN_LSTM",
+      "accuracy": 0.9325,
+      "f1_macro": 0.9335,
+      "train_time_seconds": 829,
+      "parameter_count": 176774,
+      "source": "executed HAR_Pipeline.ipynb"
+    }
+  ]
+}

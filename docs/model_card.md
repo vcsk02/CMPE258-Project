@@ -61,3 +61,8 @@ The app includes a prompt-engineered explanation layer. It does not replace the 
 ## Ethical and privacy notes
 
 This project avoids GPS, camera, microphone, and directly identifying inputs. Still, activity recognition can reveal behavioral patterns, so production systems should use consent, local processing where possible, retention limits, and clear disclosure.
+
+
+## Packaged clean-download inference artifact
+
+This archive includes `outputs/checkpoints/demo_centroid_model.npz`, a lightweight centroid classifier trained on synthetic smoke-test windows. Its purpose is to make CLI and Gradio inference runnable immediately from a clean clone. It is not claimed as the final scored UCI HAR deep model. The final deep model is produced by `python -m deep_har.train` as a `.keras` checkpoint.

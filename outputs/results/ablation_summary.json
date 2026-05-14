@@ -1,0 +1,50 @@
+[
+  {
+    "ablation_type": "architecture",
+    "variant": "MLP flattened window",
+    "accuracy": 0.9138,
+    "f1_macro": 0.9135,
+    "finding": "Flattening works well but loses temporal structure",
+    "status": "completed in notebook"
+  },
+  {
+    "ablation_type": "architecture",
+    "variant": "1D CNN local temporal filters",
+    "accuracy": 0.9179,
+    "f1_macro": 0.9189,
+    "finding": "Convolutions improve dynamic activity separation",
+    "status": "completed in notebook"
+  },
+  {
+    "ablation_type": "architecture",
+    "variant": "CNN-LSTM sequence-aware model",
+    "accuracy": 0.9325,
+    "f1_macro": 0.9335,
+    "finding": "Sequence modeling is best among executed baselines",
+    "status": "completed in notebook"
+  },
+  {
+    "ablation_type": "architecture",
+    "variant": "TCN",
+    "accuracy": "",
+    "f1_macro": "",
+    "finding": "Implemented in src/deep_har/models.py for final run",
+    "status": "implemented, run locally with TensorFlow"
+  },
+  {
+    "ablation_type": "architecture",
+    "variant": "CNN-BiLSTM-Attention",
+    "accuracy": "",
+    "f1_macro": "",
+    "finding": "Implemented in src/deep_har/models.py for final run",
+    "status": "implemented, run locally with TensorFlow"
+  },
+  {
+    "ablation_type": "architecture",
+    "variant": "Sensor Transformer",
+    "accuracy": "",
+    "f1_macro": "",
+    "finding": "Foundation-model-inspired encoder implemented for final run",
+    "status": "implemented, run locally with TensorFlow"
+  }
+]

@@ -8,34 +8,46 @@ import pandas as pd
 from deep_har.constants import ACTIVITY_LABELS, SIGNAL_NAMES
 from deep_har.data import load_example_window
 from deep_har.monitoring import drift_score, load_reference_profile
+from deep_har.numpy_baseline import load_centroid_model
 from deep_har.preprocess import ChannelStandardizer
 from deep_har.prompting import build_explanation_prompt
 from deep_har.visualization import plot_sensor_window
 
-DEFAULT_MODEL = Path("outputs/checkpoints/cnn_lstm_best.keras")
+# Default to the packaged dependency-light demo artifact so a clean clone can
+# perform inference immediately. After training a deep model, replace this with
+# outputs/checkpoints/cnn_lstm_best.keras or sensor_transformer_best.keras.
+DEFAULT_MODEL = Path("outputs/checkpoints/demo_centroid_model.npz")
 DEFAULT_NORMALIZER = Path("outputs/preprocessing/normalizer.npz")
 DEFAULT_REFERENCE_PROFILE = Path("outputs/preprocessing/reference_profile.json")
 DEFAULT_SAMPLE = Path("examples/sample_window.csv")
 
 
-def _load_runtime(model_path: str, normalizer_path: str):
-    import tensorflow as tf
-
-    model_path = Path(model_path)
-    normalizer_path = Path(normalizer_path)
+def _predict_with_model(model_path: Path, X: np.ndarray) -> np.ndarray:
+    if model_path.suffix.lower() == ".npz":
+        return load_centroid_model(model_path).predict_proba(X)
+    try:
+        import tensorflow as tf
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError(
+            "TensorFlow is required for .keras checkpoints. The packaged demo uses "
+            "outputs/checkpoints/demo_centroid_model.npz and does not require TensorFlow."
+        ) from exc
     if not model_path.exists():
         raise FileNotFoundError(f"Model checkpoint not found: {model_path}. Train a model first.")
-    if not normalizer_path.exists():
-        raise FileNotFoundError(f"Normalizer not found: {normalizer_path}. Train a model first.")
     model = tf.keras.models.load_model(model_path)
-    normalizer = ChannelStandardizer.load(normalizer_path)
-    return model, normalizer
+    return model.predict(X, verbose=0)
 
 
 def _predict(window: np.ndarray, model_path: str, normalizer_path: str):
-    model, normalizer = _load_runtime(model_path, normalizer_path)
+    model_path = Path(model_path)
+    normalizer_path = Path(normalizer_path)
+    if not model_path.exists():
+        raise FileNotFoundError(f"Model checkpoint not found: {model_path}.")
+    if not normalizer_path.exists():
+        raise FileNotFoundError(f"Normalizer not found: {normalizer_path}.")
+    normalizer = ChannelStandardizer.load(normalizer_path)
     X = normalizer.transform(window)
-    proba = model.predict(X, verbose=0)[0]
+    proba = _predict_with_model(model_path, X)[0]
     idx = int(np.argmax(proba))
     probs = pd.DataFrame({"activity": ACTIVITY_LABELS, "probability": proba}).sort_values(
         "probability", ascending=False
@@ -49,7 +61,7 @@ def _monitoring_markdown(window: np.ndarray, reference_profile_path: str) -> str
     if not path.exists():
         return (
             "### Monitoring status\n"
-            "Reference profile not found. Train the model first to create "
+            "Reference profile not found. Train or generate artifacts first to create "
             "`outputs/preprocessing/reference_profile.json`."
         )
     result = drift_score(window[0], load_reference_profile(path))
@@ -57,7 +69,7 @@ def _monitoring_markdown(window: np.ndarray, reference_profile_path: str) -> str
         "### Monitoring status\n"
         f"- Drift level: **{result['drift_level']}**\n"
         f"- Drift score: `{result['drift_score']:.3f}`\n"
-        "- Production action: log the prediction, confidence, latency, and drift score. "
+        "- Production action: log prediction, confidence, latency, and drift score. "
         "Trigger review/retraining when confidence drops or drift stays elevated."
     )
 
@@ -93,7 +105,10 @@ def build_demo():
             # DeepHAR-MLOps: Smartphone Human Activity Recognition
 
             Upload a single 128 x 9 sensor window as CSV/NPY or use the included sample.
-            Train first with `python -m deep_har.train --model cnn_lstm --epochs 40`.
+            The default packaged `.npz` checkpoint supports immediate inference from a clean clone.
+            For the deep-learning submission model, train with
+            `python -m deep_har.train --model sensor_transformer --epochs 40` and switch the
+            model path to the generated `.keras` checkpoint.
             """
         )
         with gr.Row():
@@ -123,3 +138,7 @@ def build_demo():
             """
         )
     return demo
+
+
+if __name__ == "__main__":
+    build_demo().launch()

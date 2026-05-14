@@ -1,0 +1,8 @@
+Packaged demo model: centroid classifier over statistical sensor-window features
+Purpose: clean-download CLI/Gradio inference without requiring TensorFlow or a large .keras checkpoint
+Classes: WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING
+Feature dimension: 60
+Stored centroids: 6 x 60 = 360 parameters
+Synthetic smoke-test accuracy: 1.0000
+Synthetic smoke-test macro F1: 1.0000
+Important: this artifact is not a substitute for the UCI HAR deep model checkpoint. The TensorFlow training pipeline remains the scored model path.
